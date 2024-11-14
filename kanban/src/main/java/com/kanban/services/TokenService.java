@@ -33,6 +33,7 @@ public class TokenService {
                     .verify(token);
             return true;
         } catch (Exception e) {
+            System.out.println("Invalid Token");
             return false;
         }
     }
