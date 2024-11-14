@@ -22,8 +22,23 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<List<Task>> getAllGrouped() {
+    public List<Task> getAllGrouped() {
         return service.getAllGrouped();
+    }
+
+    @GetMapping("/pending")
+    public List<Task> getAllPending() {
+        return service.getTasksByStatus(TaskStatus.PENDING);
+    }
+
+    @GetMapping("/progress")
+    public List<Task> getAllProgress() {
+        return service.getTasksByStatus(TaskStatus.IN_PROGRESS);
+    }
+
+    @GetMapping("/completed")
+    public List<Task> getAllCompleted() {
+        return service.getTasksByStatus(TaskStatus.COMPLETED);
     }
 
     @PostMapping
@@ -55,7 +70,7 @@ public class TaskController {
 
         service.save(task);
 
-        return ResponseEntity.ok("Tarefa criada com sucesso!");
+        return ResponseEntity.ok("Tarefa criada com sucesso!\n" + task.toString());
     }
 
     @PutMapping("/{id}")
@@ -85,7 +100,7 @@ public class TaskController {
 
         service.save(task);
 
-        return ResponseEntity.ok("Tarefa atualizada com sucesso!");
+        return ResponseEntity.ok("Tarefa atualizada com sucesso!\n" + task.toString());
     }
 
     @PutMapping("/{id}/move")
@@ -100,7 +115,7 @@ public class TaskController {
 
         service.save(task);
 
-        return ResponseEntity.ok("Tarefa alterada para: " + task.getStatus());
+        return ResponseEntity.ok("Tarefa alterada para: " + task.getStatus() + "\n" + task.toString());
     }
 
     @DeleteMapping("/{id}")
@@ -109,6 +124,6 @@ public class TaskController {
         if (optionalTask.isEmpty()){return ResponseEntity.notFound().build();}
         Task task = optionalTask.get();
         service.delete(task.getId());
-        return ResponseEntity.ok("Tarefa deletada com sucesso!");
+        return ResponseEntity.ok("Tarefa deletada com sucesso!\n" + task.toString());
     }
 }
