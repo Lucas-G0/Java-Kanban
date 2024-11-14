@@ -7,10 +7,7 @@ import com.kanban.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,12 +42,22 @@ public class TaskService {
         return statuses[(current + 1) % statuses.length]; //loop para se passar do tamanho do array
     }
 
-    public List<List<Task>> getAllGrouped(){
+    public List<Task> getAllGrouped(){
         List<Task> tasks = findAll();
 
-        Map<TaskStatus, List<Task>> groupedByStatus = tasks.stream()
-                .collect(Collectors.groupingBy(Task::getStatus));
+        return tasks.stream()
+                .sorted(Comparator.comparing(Task::getStatus)
+                        .thenComparing(Comparator.comparing(Task::getPriority).reversed())
+                        .thenComparing(Task::getDue_limit_date))
+                .collect(Collectors.toList());
+    }
 
-        return new ArrayList<>(groupedByStatus.values());
+    public List<Task> getTasksByStatus(TaskStatus status) {
+        List<Task> tasks = findAll();
+        return tasks.stream()
+                .filter(task -> task.getStatus() == status)
+                .sorted(Comparator.comparing(Task::getPriority)
+                        .thenComparing(Task::getDue_limit_date))
+                .collect(Collectors.toList());
     }
 }
