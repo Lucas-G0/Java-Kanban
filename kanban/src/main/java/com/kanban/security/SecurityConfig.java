@@ -21,7 +21,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf-> csrf.disable())
                 .authorizeRequests(authorize-> authorize
-                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/auth/login").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(this.authenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

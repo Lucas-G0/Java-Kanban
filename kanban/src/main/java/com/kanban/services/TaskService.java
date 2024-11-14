@@ -56,7 +56,7 @@ public class TaskService {
         List<Task> tasks = findAll();
         return tasks.stream()
                 .filter(task -> task.getStatus() == status)
-                .sorted(Comparator.comparing(Task::getPriority)
+                .sorted(Comparator.comparing(Task::getPriority).reversed()
                         .thenComparing(Task::getDue_limit_date))
                 .collect(Collectors.toList());
     }
