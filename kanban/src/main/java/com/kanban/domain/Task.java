@@ -44,4 +44,15 @@ public class Task {
     }
 
     public Task() {}
+
+    @Override
+    public String toString() {
+        return "\nINFORMAÇÕES DA TAREFA" +
+                "\nTítulo: " + this.getTitle() +
+                "\nDescrição: " + this.getDescription() +
+                "\nData da criação: " + this.getCreated_at() +
+                "\nData limite: " + this.getDue_limit_date() +
+                "\nStatus: " + this.getStatus() +
+                "\nPrioridade: " + this.getPriority();
+    }
 }
